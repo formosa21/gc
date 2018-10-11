@@ -1,0 +1,407 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     16623,        399]
+NotebookOptionsPosition[     15454,        371]
+NotebookOutlinePosition[     15810,        387]
+CellTagsIndexPosition[     15767,        384]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"removeKilledParentIndex", "[", 
+   RowBox[{"parentNumberTable_", ",", "cc_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "childIndex", ",", "selfIndex", ",", "newParentNumberTable", ",", 
+      "iterLength"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"Remove", " ", "killed", " ", 
+      RowBox[{"parent", "'"}], "s", " ", "index", " ", "and", " ", "adjust", 
+      " ", "parent", " ", "numbers"}], "*)"}], "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"newParentNumberTable", "=", "parentNumberTable"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"For", "[", 
+      RowBox[{
+       RowBox[{"i", "=", 
+        RowBox[{
+         RowBox[{"Dimensions", "[", "parentNumberTable", "]"}], 
+         "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], ",", 
+       RowBox[{"i", ">", "1"}], ",", 
+       RowBox[{"i", "--"}], ",", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"For", "[", 
+         RowBox[{
+          RowBox[{"j", "=", "1"}], ",", 
+          RowBox[{"j", "\[LessEqual]", 
+           RowBox[{
+            RowBox[{"Dimensions", "[", 
+             RowBox[{
+             "parentNumberTable", "\[LeftDoubleBracket]", "i", 
+              "\[RightDoubleBracket]"}], "]"}], "\[LeftDoubleBracket]", "1", 
+            "\[RightDoubleBracket]"}]}], ",", 
+          RowBox[{"j", "++"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                "parentNumberTable", "\[LeftDoubleBracket]", "i", 
+                 "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "j", 
+                "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "4", 
+               "\[RightDoubleBracket]"}], "\[Equal]", "True"}], " ", ",", 
+             RowBox[{"(*", 
+              RowBox[{
+              "if", " ", "it", " ", "is", " ", "removed", " ", "and", " ", 
+               "have", " ", "not", " ", "processed"}], "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"iterLength", "=", 
+               RowBox[{"Length", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                  "newParentNumberTable", "\[LeftDoubleBracket]", "i", 
+                   "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "j", 
+                  "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                 "\[RightDoubleBracket]"}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{"For", "[", 
+               RowBox[{
+                RowBox[{"k", "=", "1"}], ",", 
+                RowBox[{"k", "\[LessEqual]", "iterLength"}], ",", 
+                RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{"Print", "[", 
+                   RowBox[{"\"\<kth run: \>\"", ",", "k"}], "]"}], ";"}], 
+                 "*)"}], "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"selfIndex", "=", "j"}], ";", "\[IndentingNewLine]", 
+                 
+                 RowBox[{"childIndex", "=", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "newParentNumberTable", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "j", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                   "\[RightDoubleBracket]"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"(*", 
+                  RowBox[{
+                   RowBox[{"Print", "[", 
+                    RowBox[{"\"\<child index: \>\"", ",", "childIndex"}], 
+                    "]"}], ";"}], "*)"}], "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                    RowBox[{"i", "-", "1"}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "childIndex", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                   "\[RightDoubleBracket]"}], "=", 
+                  RowBox[{"DeleteCases", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                    RowBox[{"i", "-", "1"}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "childIndex", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", "selfIndex"}], "]"}]}], 
+                 ";", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{
+                    "newParentNumberTable", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "j", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                   "\[RightDoubleBracket]"}], "=", 
+                  RowBox[{"Drop", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "newParentNumberTable", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "j", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], ",", "1"}], "]"}]}], ";", 
+                 "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                    RowBox[{"i", "-", "1"}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "childIndex", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                   "\[RightDoubleBracket]"}], "-=", "1"}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"##", "&"}], "[", "]"}]}], ",", 
+             RowBox[{
+              RowBox[{"##", "&"}], "[", "]"}]}], "]"}], ";"}]}], 
+         "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], 
+     ";", "\[IndentingNewLine]", "newParentNumberTable"}]}], 
+   "\[IndentingNewLine]", "]"}]}]], "Input",ExpressionUUID->"d5cf64ed-3b3a-\
+4fa4-869b-2ac314cd9117"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"removeKilledParentIndexParallel", "[", 
+   RowBox[{"parentNumberTable_", ",", "cc_"}], "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "childIndex", ",", "selfIndex", ",", "newParentNumberTable", ",", 
+      "iterLength"}], "}"}], ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"newParentNumberTable", "=", "parentNumberTable"}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"newParentNumberTable", "=", 
+      RowBox[{"ParallelMap", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+             "#", "\[LeftDoubleBracket]", "4", "\[RightDoubleBracket]"}], 
+             "\[Equal]", "True"}], " ", "&&", 
+            RowBox[{
+             RowBox[{
+             "#", "\[LeftDoubleBracket]", "6", "\[RightDoubleBracket]"}], 
+             "\[NotEqual]", "1"}]}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"For", "[", 
+             RowBox[{
+              RowBox[{"k", "=", "1"}], ",", 
+              RowBox[{"k", "\[LessEqual]", 
+               RowBox[{"Length", "[", 
+                RowBox[{
+                "#", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}], 
+                "]"}]}], ",", 
+              RowBox[{"k", "++"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"(*", 
+               RowBox[{
+                RowBox[{"Print", "[", 
+                 RowBox[{"\"\<kth run: \>\"", ",", "k"}], "]"}], ";"}], 
+               "*)"}], "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"selfIndex", "=", 
+                RowBox[{
+                "#", "\[LeftDoubleBracket]", "5", "\[RightDoubleBracket]"}]}],
+                ";", "\[IndentingNewLine]", 
+               RowBox[{"childIndex", "=", 
+                RowBox[{
+                 RowBox[{
+                 "#", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+               ";", "\[IndentingNewLine]", 
+               RowBox[{"(*", 
+                RowBox[{
+                 RowBox[{"Print", "[", 
+                  RowBox[{"\"\<child index: \>\"", ",", "childIndex"}], "]"}],
+                  ";"}], "*)"}], "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                   RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "6", 
+                    "\[RightDoubleBracket]"}], "-", "1"}], 
+                   "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+                  "childIndex", "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], "=", 
+                
+                RowBox[{"DeleteCases", "[", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "6", 
+                    "\[RightDoubleBracket]"}], "-", "1"}], 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+                    "childIndex", "\[RightDoubleBracket]"}], 
+                   "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                  ",", "selfIndex"}], "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                "#", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}], 
+                "=", 
+                RowBox[{"Drop", "[", 
+                 RowBox[{
+                  RowBox[{
+                  "#", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}],
+                   ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"newParentNumberTable", "\[LeftDoubleBracket]", 
+                   RowBox[{
+                    RowBox[{
+                    "#", "\[LeftDoubleBracket]", "6", 
+                    "\[RightDoubleBracket]"}], "-", "1"}], 
+                   "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", 
+                  "childIndex", "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "-=",
+                 "1"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"##", "&"}], "[", "]"}]}], ",", 
+           RowBox[{
+            RowBox[{"##", "&"}], "[", "]"}]}], "]"}], "&"}], ",", 
+        "newParentNumberTable", ",", 
+        RowBox[{"{", "2", "}"}]}], "\[IndentingNewLine]", "]"}]}], ";", 
+     "\[IndentingNewLine]", "newParentNumberTable"}]}], "\[IndentingNewLine]",
+    "]"}]}]], "Input",
+ CellChangeTimes->{{3.747274711368107*^9, 3.747274742756611*^9}, {
+   3.74727478182801*^9, 3.7472747856566477`*^9}, {3.747274960576049*^9, 
+   3.747274967096435*^9}, {3.7472770164656487`*^9, 3.747277033794868*^9}, {
+   3.747277084019384*^9, 3.7472771529318113`*^9}, {3.747277240520566*^9, 
+   3.747277254201715*^9}, {3.74727730388969*^9, 3.74727734779959*^9}, 
+   3.747277394271496*^9, {3.7472785888203497`*^9, 3.747278632383882*^9}, {
+   3.7472787011735992`*^9, 3.747278717697782*^9}, {3.747278753632349*^9, 
+   3.747278818536669*^9}, 3.7472794500268*^9, {3.747279549936117*^9, 
+   3.7472795695140543`*^9}},
+ CellLabel->
+  "In[252]:=",ExpressionUUID->"eca24fbb-aa36-4e37-9fa5-5351c419ea55"],
+
+Cell[BoxData[
+ RowBox[{"Table", "[", 
+  RowBox[{"i", ",", 
+   RowBox[{"{", 
+    RowBox[{"i", ",", "3"}], "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.747277127414023*^9, 3.747277136494409*^9}},
+ CellLabel->
+  "In[203]:=",ExpressionUUID->"fb0112d1-b3db-40a8-bfea-19d2591120c5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Dimensions", "[", "cc", "]"}], "\[LeftDoubleBracket]", "1", 
+  "\[RightDoubleBracket]"}]], "Input",
+ CellChangeTimes->{{3.747279054155999*^9, 3.747279086836375*^9}, {
+  3.747279163495935*^9, 3.747279167711741*^9}},
+ CellLabel->
+  "In[229]:=",ExpressionUUID->"9a4ad3c8-ac19-41a4-a01a-ea897b02f374"],
+
+Cell[BoxData["3"], "Output",
+ CellChangeTimes->{3.747279168740254*^9},
+ CellLabel->
+  "Out[229]=",ExpressionUUID->"7684435f-52ac-40ea-8951-16c5e9239371"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", 
+  RowBox[{
+   RowBox[{"cc1", "\[LeftDoubleBracket]", 
+    RowBox[{"Dimensions", "[", "cc", "]"}], "\[RightDoubleBracket]"}], 
+   "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "]"}]], "Input",
+ CellChangeTimes->{{3.747278984113372*^9, 3.747279029664906*^9}, {
+  3.747279229232197*^9, 3.747279231327125*^9}},
+ CellLabel->
+  "In[240]:=",ExpressionUUID->"ceb53e0a-4e71-4035-9d42-5d3d940513c4"],
+
+Cell[BoxData["10"], "Output",
+ CellChangeTimes->{
+  3.7472771369027243`*^9, {3.7472789793572397`*^9, 3.7472789942541533`*^9}, 
+   3.747279030618709*^9, 3.747279231846126*^9},
+ CellLabel->
+  "Out[240]=",ExpressionUUID->"d4fb17f6-df92-4c26-aeb2-8329cf7b3fbf"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ParallelMap", "[", 
+  RowBox[{
+   RowBox[{"#", "&"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "2"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"3", ",", "4"}], "}"}]}], "}"}], ",", 
+   RowBox[{"{", "1", "}"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.747323388867243*^9, 3.7473234127947483`*^9}, {
+  3.7473234722844353`*^9, 3.747323572839403*^9}, {3.7473237660060387`*^9, 
+  3.747323835560317*^9}},
+ CellLabel->
+  "In[273]:=",ExpressionUUID->"3e37623c-d5f5-4213-b6b7-9c184cb64c9b"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"1", ",", "2"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"3", ",", "4"}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{{3.747323482764474*^9, 3.747323575114305*^9}, {
+  3.747323797496634*^9, 3.74732383611329*^9}},
+ CellLabel->
+  "Out[273]=",ExpressionUUID->"59ef79d5-ffed-407a-93eb-0e8ee97d718f"]
+}, Open  ]]
+},
+WindowSize->{1459, 942},
+WindowMargins->{{Automatic, -323}, {1, Automatic}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 6761, 144, 451, "Input",ExpressionUUID->"d5cf64ed-3b3a-4fa4-869b-2ac314cd9117"],
+Cell[7322, 166, 5630, 124, 346, "Input",ExpressionUUID->"eca24fbb-aa36-4e37-9fa5-5351c419ea55"],
+Cell[12955, 292, 279, 7, 30, "Input",ExpressionUUID->"fb0112d1-b3db-40a8-bfea-19d2591120c5"],
+Cell[CellGroupData[{
+Cell[13259, 303, 332, 7, 30, "Input",ExpressionUUID->"9a4ad3c8-ac19-41a4-a01a-ea897b02f374"],
+Cell[13594, 312, 153, 3, 34, "Output",ExpressionUUID->"7684435f-52ac-40ea-8951-16c5e9239371"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[13784, 320, 438, 9, 30, "Input",ExpressionUUID->"ceb53e0a-4e71-4035-9d42-5d3d940513c4"],
+Cell[14225, 331, 257, 5, 34, "Output",ExpressionUUID->"d4fb17f6-df92-4c26-aeb2-8329cf7b3fbf"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[14519, 341, 548, 15, 30, "Input",ExpressionUUID->"3e37623c-d5f5-4213-b6b7-9c184cb64c9b"],
+Cell[15070, 358, 368, 10, 92, "Output",ExpressionUUID->"59ef79d5-ffed-407a-93eb-0e8ee97d718f"]
+}, Open  ]]
+}
+]
+*)
+

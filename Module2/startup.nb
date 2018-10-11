@@ -1,0 +1,2098 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     87954,       2090]
+NotebookOptionsPosition[     87544,       2075]
+NotebookOutlinePosition[     87898,       2091]
+CellTagsIndexPosition[     87855,       2088]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"SetDirectory", "[", 
+   RowBox[{"ToFileName", "[", 
+    RowBox[{"Extract", "[", 
+     RowBox[{
+      RowBox[{"\"\<FileName\>\"", "/.", 
+       RowBox[{"NotebookInformation", "[", 
+        RowBox[{"EvaluationNotebook", "[", "]"}], "]"}]}], ",", 
+      RowBox[{"{", "1", "}"}], ",", "FrontEnd`FileName"}], "]"}], "]"}], 
+   "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"PNGtoGray", "[", "filename_", "]"}], ":=", 
+   RowBox[{"Reverse", "[", 
+    RowBox[{"Map", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"Map", "[", 
+        RowBox[{"First", ",", "#"}], "]"}], "&"}], ",", 
+      RowBox[{"Import", "[", 
+       RowBox[{"filename", ",", "\"\<Data\>\""}], "]"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GIFtoGray", "[", "filename_", "]"}], ":=", 
+   RowBox[{"255", "-", 
+    RowBox[{"Reverse", "[", 
+     RowBox[{"Map", "[", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Map", "[", 
+         RowBox[{"First", ",", "#"}], "]"}], "&"}], ",", 
+       RowBox[{"Import", "[", 
+        RowBox[{"filename", ",", "\"\<Data\>\""}], "]"}]}], "]"}], "]"}]}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showBinaryImage", "[", "bimg_", "]"}], ":=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"Raster", "[", "bimg", "]"}], ",", 
+     RowBox[{"Frame", "\[Rule]", "False"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showGrayImage", "[", "img_", "]"}], ":=", 
+   RowBox[{"Graphics", "[", 
+    RowBox[{
+     RowBox[{"Raster", "[", 
+      RowBox[{"img", "/", 
+       RowBox[{"Max", "[", "img", "]"}]}], "]"}], ",", 
+     RowBox[{"Frame", "\[Rule]", "False"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"traceFace", "[", "edgelist_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"face", "=", 
+        RowBox[{
+        "edgelist", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+       ",", "p", ",", 
+       RowBox[{"nlist", "=", 
+        RowBox[{"Drop", "[", 
+         RowBox[{"edgelist", ",", "1"}], "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"While", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Length", "[", "nlist", "]"}], ">", "1"}], ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"p", "=", 
+          RowBox[{"Position", "[", 
+           RowBox[{"nlist", ",", 
+            RowBox[{"Last", "[", "face", "]"}]}], "]"}]}], ";", 
+         "\[IndentingNewLine]", 
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"face", ",", 
+           RowBox[{"nlist", "\[LeftDoubleBracket]", 
+            RowBox[{
+             RowBox[{"p", "\[LeftDoubleBracket]", 
+              RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], ",", 
+             RowBox[{"3", "-", 
+              RowBox[{"p", "\[LeftDoubleBracket]", 
+               RowBox[{"1", ",", "2"}], "\[RightDoubleBracket]"}]}]}], 
+            "\[RightDoubleBracket]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+         RowBox[{"nlist", "=", 
+          RowBox[{"Drop", "[", 
+           RowBox[{"nlist", ",", 
+            RowBox[{"{", 
+             RowBox[{"p", "\[LeftDoubleBracket]", 
+              RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], "}"}]}], 
+           "]"}]}]}]}], "]"}], ";", "\[IndentingNewLine]", "face"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getScale", "[", "cc_", "]"}], ":=", 
+   RowBox[{"Max", "[", 
+    RowBox[{"Map", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"Max", "[", "#", "]"}], "-", 
+         RowBox[{"Min", "[", "#", "]"}], "+", "1"}], ")"}], "&"}], ",", 
+      RowBox[{"Transpose", "[", 
+       RowBox[{"cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+       "]"}]}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getExteriorFaces", "[", "cc_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", "val", "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"val", "=", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{"0", "&"}], ",", 
+         RowBox[{
+         "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}], 
+        "]"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Scan", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"Scan", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{
+             "val", "\[LeftDoubleBracket]", "#", "\[RightDoubleBracket]"}], 
+             "++"}], "&"}], ",", "#"}], "]"}], "&"}], ",", 
+        RowBox[{
+        "cc", "\[LeftDoubleBracket]", "4", "\[RightDoubleBracket]"}]}], "]"}],
+       ";", "\[IndentingNewLine]", 
+      RowBox[{"Pick", "[", 
+       RowBox[{
+        RowBox[{"cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}], 
+        ",", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"#", "<", "2"}], ")"}], "&"}], ",", "val"}], "]"}]}], 
+       "]"}]}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ptSize2D", "=", "0.02"}], ";", 
+  RowBox[{"ptColor2D", "=", 
+   RowBox[{"GrayLevel", "[", "0", "]"}]}], ";", 
+  RowBox[{"ptColorOri2D", "=", 
+   RowBox[{"GrayLevel", "[", "0.85", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"edgeSize2D", "=", "0.01"}], ";", 
+  RowBox[{"edgeColor2D", "=", 
+   RowBox[{"GrayLevel", "[", ".2", "]"}]}], ";", 
+  RowBox[{"edgeColorOri2D", "=", 
+   RowBox[{"GrayLevel", "[", "0.9", "]"}]}], ";", 
+  RowBox[{"faceColor2D", "=", 
+   RowBox[{"GrayLevel", "[", "0.5", "]"}]}], ";", 
+  RowBox[{"faceColorOri2D", "=", 
+   RowBox[{"GrayLevel", "[", "0.95", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC2D", "[", "cc_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "cc", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len", "\[GreaterEqual]", "3"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"faceColor2D", ",", 
+            RowBox[{"EdgeForm", "[", 
+             RowBox[{"{", "}"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Polygon", "[", 
+                RowBox[{"cc", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", 
+                  RowBox[{"traceFace", "[", 
+                   RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                   "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+              RowBox[{
+              "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}], 
+             "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len", "\[GreaterEqual]", "2"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"edgeColor2D", ",", 
+            RowBox[{"Thickness", "[", 
+             RowBox[{"edgeSize2D", "/", "scl"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Line", "[", 
+                RowBox[{"cc", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}], 
+               "&"}], ",", 
+              RowBox[{
+              "cc", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+             "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"ptColor2D", ",", 
+          RowBox[{"PointSize", "[", 
+           RowBox[{"ptSize2D", "/", "scl"}], "]"}], ",", 
+          RowBox[{"Map", "[", 
+           RowBox[{"Point", ",", 
+            RowBox[{
+            "cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+           "]"}]}], "}"}]}], "}"}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC2D", "[", 
+    RowBox[{"cc1_", ",", "cc2_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc2", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len1", "=", 
+        RowBox[{"Length", "[", "cc1", "]"}]}], ",", 
+       RowBox[{"len2", "=", 
+        RowBox[{"Length", "[", "cc2", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics", "[", 
+      RowBox[{"{", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len2", "\[GreaterEqual]", "3"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"faceColorOri2D", ",", 
+            RowBox[{"EdgeForm", "[", 
+             RowBox[{"{", "}"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Polygon", "[", 
+                RowBox[{"cc2", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", 
+                  RowBox[{"traceFace", "[", 
+                   RowBox[{"cc2", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                   "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+              RowBox[{
+              "cc2", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}],
+              "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len2", "\[GreaterEqual]", "2"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"edgeColorOri2D", ",", 
+            RowBox[{"Thickness", "[", 
+             RowBox[{"edgeSize2D", "/", "scl"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Line", "[", 
+                RowBox[{"cc2", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}], 
+               "&"}], ",", 
+              RowBox[{
+              "cc2", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}],
+              "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"ptColorOri2D", ",", 
+          RowBox[{"PointSize", "[", 
+           RowBox[{"ptSize2D", "/", "scl"}], "]"}], ",", 
+          RowBox[{"Map", "[", 
+           RowBox[{"Point", ",", 
+            RowBox[{
+            "cc2", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+           "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len1", "\[GreaterEqual]", "3"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"faceColor2D", ",", 
+            RowBox[{"EdgeForm", "[", 
+             RowBox[{"{", "}"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Polygon", "[", 
+                RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", 
+                  RowBox[{"traceFace", "[", 
+                   RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                   "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+              RowBox[{
+              "cc1", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}],
+              "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len1", "\[GreaterEqual]", "2"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"edgeColor2D", ",", 
+            RowBox[{"Thickness", "[", 
+             RowBox[{"edgeSize2D", "/", "scl"}], "]"}], ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Line", "[", 
+                RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}], 
+               "&"}], ",", 
+              RowBox[{
+              "cc1", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}],
+              "]"}]}], "}"}], ",", 
+          RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+        RowBox[{"{", 
+         RowBox[{"ptColor2D", ",", 
+          RowBox[{"PointSize", "[", 
+           RowBox[{"ptSize2D", "/", "scl"}], "]"}], ",", 
+          RowBox[{"Map", "[", 
+           RowBox[{"Point", ",", 
+            RowBox[{
+            "cc1", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+           "]"}]}], "}"}]}], "}"}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC2DImg", "[", 
+    RowBox[{"cc_", ",", "img_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "cc", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Show", "[", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"showGrayImage", "[", "img", "]"}], ",", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{"{", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"len", "\[GreaterEqual]", "3"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"RGBColor", "[", 
+                RowBox[{"1", ",", "0", ",", "0"}], "]"}], ",", 
+               RowBox[{"EdgeForm", "[", 
+                RowBox[{"{", "}"}], "]"}], ",", 
+               RowBox[{"Map", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Polygon", "[", 
+                   RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", 
+                    RowBox[{"traceFace", "[", 
+                    RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                    "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "3", 
+                  "\[RightDoubleBracket]"}]}], "]"}]}], "}"}], ",", 
+             RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"len", "\[GreaterEqual]", "2"}], ",", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"RGBColor", "[", 
+                RowBox[{"1", ",", "0", ",", "0"}], "]"}], ",", 
+               RowBox[{"Thickness", "[", 
+                RowBox[{"edgeSize2D", "/", "scl"}], "]"}], ",", 
+               RowBox[{"Map", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Line", "[", 
+                   RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}],
+                   "&"}], ",", 
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "2", 
+                  "\[RightDoubleBracket]"}]}], "]"}]}], "}"}], ",", 
+             RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"RGBColor", "[", 
+              RowBox[{"1", ",", "0", ",", "0"}], "]"}], ",", 
+             RowBox[{"PointSize", "[", 
+              RowBox[{"ptSize2D", "/", "scl"}], "]"}], ",", 
+             RowBox[{"Map", "[", 
+              RowBox[{"Point", ",", 
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}],
+               "]"}]}], "}"}]}], "}"}], "]"}]}], "}"}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"ptSize3D", "=", "0.02"}], ";", 
+  RowBox[{"ptColor3D", "=", 
+   RowBox[{"GrayLevel", "[", "0", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"edgeSize3D", "=", "0.01"}], ";", 
+  RowBox[{"edgeColor3D", "=", 
+   RowBox[{"GrayLevel", "[", "0", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"faceColor3D", "=", 
+   RowBox[{"GrayLevel", "[", "0.5", "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"opaqe3D", "=", "0.2"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC3D", "[", "cc_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "cc", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"len", "\[GreaterEqual]", "3"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"faceColor3D", ",", 
+             RowBox[{"EdgeForm", "[", 
+              RowBox[{"{", "}"}], "]"}], ",", 
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Polygon", "[", 
+                 RowBox[{"cc", "\[LeftDoubleBracket]", 
+                  RowBox[{"1", ",", 
+                   RowBox[{"traceFace", "[", 
+                    RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                    "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}],
+               "]"}]}], "}"}], ",", 
+           RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"len", "\[GreaterEqual]", "2"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"edgeColor3D", ",", 
+             RowBox[{"Thickness", "[", 
+              RowBox[{"edgeSize3D", "/", "scl"}], "]"}], ",", 
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Line", "[", 
+                 RowBox[{"cc", "\[LeftDoubleBracket]", 
+                  RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}], 
+                "&"}], ",", 
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}],
+               "]"}]}], "}"}], ",", 
+           RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"ptColor3D", ",", 
+           RowBox[{"PointSize", "[", 
+            RowBox[{"ptSize3D", "/", "scl"}], "]"}], ",", 
+           RowBox[{"Map", "[", 
+            RowBox[{"Point", ",", 
+             RowBox[{
+             "cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+            "]"}]}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Boxed", "\[Rule]", "False"}], ",", 
+       RowBox[{"RotationAction", "\[Rule]", "Clip"}], ",", 
+       RowBox[{"Lighting", "->", "\"\<Neutral\>\""}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC3DExt", "[", "cc_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len", "=", 
+        RowBox[{"Length", "[", "cc", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{
+       RowBox[{"{", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"len", "\[GreaterEqual]", "3"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"faceColor3D", ",", 
+            RowBox[{"EdgeForm", "[", 
+             RowBox[{"{", 
+              RowBox[{"edgeColor3D", ",", 
+               RowBox[{"Thickness", "[", 
+                RowBox[{"edgeSize3D", "/", "scl"}], "]"}]}], "}"}], "]"}], 
+            ",", 
+            RowBox[{"Map", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Polygon", "[", 
+                RowBox[{"cc", "\[LeftDoubleBracket]", 
+                 RowBox[{"1", ",", 
+                  RowBox[{"traceFace", "[", 
+                   RowBox[{"cc", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                   "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+              RowBox[{"getExteriorFaces", "[", "cc", "]"}]}], "]"}]}], "}"}], 
+          ",", 
+          RowBox[{"{", "}"}]}], "]"}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Boxed", "\[Rule]", "False"}], ",", 
+       RowBox[{"RotationAction", "\[Rule]", "Clip"}], ",", 
+       RowBox[{"Lighting", "->", "\"\<Neutral\>\""}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"showCC3D", "[", 
+    RowBox[{"cc1_", ",", "cc2_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"scl", "=", 
+        RowBox[{
+         RowBox[{"getScale", "[", "cc2", "]"}], "/", "10.0"}]}], ",", 
+       RowBox[{"len1", "=", 
+        RowBox[{"Length", "[", "cc1", "]"}]}], ",", 
+       RowBox[{"len2", "=", 
+        RowBox[{"Length", "[", "cc2", "]"}]}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"Graphics3D", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Opacity", "[", "opaqe3D", "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{"len2", "\[GreaterEqual]", "3"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"faceColor3D", ",", 
+               RowBox[{"EdgeForm", "[", 
+                RowBox[{"{", "}"}], "]"}], ",", 
+               RowBox[{"Map", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{"Polygon", "[", 
+                   RowBox[{"cc2", "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", 
+                    RowBox[{"traceFace", "[", 
+                    RowBox[{"cc2", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                    "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+                 RowBox[{"getExteriorFaces", "[", "cc2", "]"}]}], "]"}]}], 
+              "}"}], ",", 
+             RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"len1", "\[GreaterEqual]", "3"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"faceColor3D", ",", 
+             RowBox[{"EdgeForm", "[", 
+              RowBox[{"{", "}"}], "]"}], ",", 
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Polygon", "[", 
+                 RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                  RowBox[{"1", ",", 
+                   RowBox[{"traceFace", "[", 
+                    RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                    RowBox[{"2", ",", "#"}], "\[RightDoubleBracket]"}], 
+                    "]"}]}], "\[RightDoubleBracket]"}], "]"}], "&"}], ",", 
+               RowBox[{
+               "cc1", "\[LeftDoubleBracket]", "3", 
+                "\[RightDoubleBracket]"}]}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"len1", "\[GreaterEqual]", "2"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"edgeColor3D", ",", 
+             RowBox[{"Thickness", "[", 
+              RowBox[{"edgeSize3D", "/", "scl"}], "]"}], ",", 
+             RowBox[{"Map", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"Line", "[", 
+                 RowBox[{"cc1", "\[LeftDoubleBracket]", 
+                  RowBox[{"1", ",", "#"}], "\[RightDoubleBracket]"}], "]"}], 
+                "&"}], ",", 
+               RowBox[{
+               "cc1", "\[LeftDoubleBracket]", "2", 
+                "\[RightDoubleBracket]"}]}], "]"}]}], "}"}], ",", 
+           RowBox[{"{", "}"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"ptColor3D", ",", 
+           RowBox[{"PointSize", "[", 
+            RowBox[{"ptSize3D", "/", "scl"}], "]"}], ",", 
+           RowBox[{"Map", "[", 
+            RowBox[{"Point", ",", 
+             RowBox[{
+             "cc1", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+            "]"}]}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"Boxed", "\[Rule]", "False"}], ",", 
+       RowBox[{"RotationAction", "\[Rule]", "Clip"}], ",", 
+       RowBox[{"Lighting", "->", "\"\<Neutral\>\""}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"translation2D", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", 
+         RowBox[{"-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "0"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1"}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", 
+         RowBox[{"-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", 
+         RowBox[{"-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", 
+         RowBox[{"-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", "1"}]}], "}"}]}], "}"}]}], "}"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"buildCC2D", "[", "array_", "]"}], ":=", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "usedArr", ",", "n", ",", "m", ",", "i", ",", "j", ",", "cc", ",", 
+      "edgeIndices", ",", "zeroCell1", ",", "zeroCell2", ",", "oneCell", ",", 
+      "totalZeroCells", ",", "totalOneCells", ",", "totalTwoCells"}], "}"}], 
+    ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"n", ",", "m"}], "}"}], "=", 
+      RowBox[{"Dimensions", "[", "array", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"usedArr", ":", " ", 
+       RowBox[{"{", 
+        RowBox[{"visited", ",", 
+         RowBox[{"(", 
+          RowBox[{"its", " ", "index"}], ")"}]}], "}"}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"usedArr", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"False", ",", 
+          RowBox[{"-", "1"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{
+           RowBox[{"2", "*", "m"}], "+", "1"}], ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", 
+          RowBox[{
+           RowBox[{"2", "*", "n"}], "+", "1"}], ",", "1"}], "}"}]}], "]"}]}], 
+     ";", "\[IndentingNewLine]", 
+     RowBox[{"cc", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "3"}], "}"}]}], "]"}]}], ";", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{
+       "this", " ", "is", " ", "the", " ", "2", "d", " ", "array", " ", 
+        "that", " ", "documents", " ", "whether", " ", "the", " ", "0"}], ",",
+        "1", ",", 
+       RowBox[{"2", "-", 
+        RowBox[{"cells", " ", "have", " ", "been", " ", "used"}]}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"totalZeroCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalOneCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalTwoCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Do", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"edgeIndices", "=", 
+         RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"array", "\[LeftDoubleBracket]", 
+            RowBox[{"y", ",", "x"}], "\[RightDoubleBracket]"}], "\[Equal]", 
+           "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"For", "[", 
+            RowBox[{
+             RowBox[{"i", "=", "1"}], ",", 
+             RowBox[{"i", "\[LessEqual]", "4"}], ",", 
+             RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+             RowBox[{"(*", 
+              RowBox[{"position", " ", "=", " ", 
+               RowBox[{"arithmetic", "+", "translation"}]}], "*)"}], 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"zeroCell1", "=", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"2", "*", "x"}], ",", 
+                  RowBox[{"2", "*", "y"}]}], "}"}], "+", 
+                RowBox[{
+                 RowBox[{
+                 "translation2D", "\[LeftDoubleBracket]", "i", 
+                  "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                 "\[RightDoubleBracket]"}]}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"zeroCell2", "=", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"2", "*", "x"}], ",", 
+                  RowBox[{"2", "*", "y"}]}], "}"}], "+", 
+                RowBox[{
+                 RowBox[{
+                 "translation2D", "\[LeftDoubleBracket]", "i", 
+                  "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                 "\[RightDoubleBracket]"}]}]}], ";", "\[IndentingNewLine]", 
+              RowBox[{"oneCell", "=", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"2", "*", "x"}], ",", 
+                  RowBox[{"2", "*", "y"}]}], "}"}], "+", 
+                RowBox[{
+                 RowBox[{
+                 "translation2D", "\[LeftDoubleBracket]", "i", 
+                  "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                 "\[RightDoubleBracket]"}]}]}], ";", "\[IndentingNewLine]", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "=", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                   "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                  "\[Equal]", "False"}], ",", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                   "=", "True"}], ";", 
+                  RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                  RowBox[{"(*", 
+                   RowBox[{
+                   "get", " ", "index", " ", "of", " ", "this", " ", 
+                    "zerocell"}], "*)"}], "\[IndentingNewLine]", 
+                  RowBox[{"totalZeroCells", "+=", "1"}], ";", 
+                  RowBox[{"(*", 
+                   RowBox[{"increment", " ", "zerocell", " ", "count"}], 
+                   "*)"}], "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                   "=", "totalZeroCells"}], ";", "\[IndentingNewLine]", 
+                  RowBox[{"Append", "[", 
+                   RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "zeroCell1"}], "]"}]}], 
+                 ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "1", 
+                  "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "=", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                   "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                  "\[Equal]", "False"}], ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                   "=", "True"}], ";", 
+                  RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                  RowBox[{"totalZeroCells", "+=", "1"}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                   "=", "totalZeroCells"}], ";", "\[IndentingNewLine]", 
+                  RowBox[{"Append", "[", 
+                   RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "zeroCell2"}], "]"}]}], 
+                 ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "1", 
+                  "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+              "\[IndentingNewLine]", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+               "cc", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+               "=", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                   "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                  "\[Equal]", "False"}], ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                   "=", "True"}], ";", 
+                  RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                  RowBox[{"totalOneCells", "+=", "1"}], ";", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"edgeIndices", "=", 
+                   RowBox[{"Append", "[", 
+                    RowBox[{"edgeIndices", ",", "totalOneCells"}], "]"}]}], 
+                  ";", "\[IndentingNewLine]", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                   "=", "totalOneCells"}], ";", "\[IndentingNewLine]", 
+                  RowBox[{"Append", "[", 
+                   RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    ",", 
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                    "}"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{"edgeIndices", "=", 
+                   RowBox[{"Append", "[", 
+                    RowBox[{"edgeIndices", ",", 
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                    "]"}]}], ";", "\[IndentingNewLine]", 
+                  RowBox[{
+                  "cc", "\[LeftDoubleBracket]", "2", 
+                   "\[RightDoubleBracket]"}]}]}], "]"}]}], ";"}]}], 
+            "\[IndentingNewLine]", "]"}], ";", 
+           RowBox[{"(*", 
+            RowBox[{"end", " ", "for"}], "*)"}], "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}], "=", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                 RowBox[{
+                  RowBox[{"2", "*", "x"}], ",", 
+                  RowBox[{"2", "*", "y"}]}], "\[RightDoubleBracket]"}], 
+                "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "\[Equal]", "False"}], " ", ",", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                  RowBox[{
+                   RowBox[{"2", "*", "x"}], ",", 
+                   RowBox[{"2", "*", "y"}]}], "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "=", 
+                "True"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"totalTwoCells", "+=", "1"}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                  RowBox[{
+                   RowBox[{"2", "*", "x"}], ",", 
+                   RowBox[{"2", "*", "y"}]}], "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], "=", 
+                "totalTwoCells"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Append", "[", 
+                RowBox[{
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}],
+                  ",", "edgeIndices"}], "]"}]}], ",", "\[IndentingNewLine]", 
+              RowBox[{
+              "cc", "\[LeftDoubleBracket]", "3", "\[RightDoubleBracket]"}]}], 
+             "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"##", "&"}], "[", "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"##", "&"}], "[", "]"}]}], "]"}], ";"}], 
+       "\[IndentingNewLine]", ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "m"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"y", ",", "n"}], "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     "cc"}]}], "\[IndentingNewLine]", "]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"arrC", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "0", ",", "1", ",", "1"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "0", ",", "1", ",", "1", ",", "1"}], "}"}]}], "}"}]}],
+   ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"arrRing", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "0", ",", "0", ",", "1", ",", "1"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}], "}"}], 
+     ",", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", "1", ",", "1", ",", "1", ",", "1", ",", "1"}], 
+      "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"translation3D", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{"(*", 
+     RowBox[{"translation", " ", "on", " ", "x", " ", "axis"}], "*)"}], 
+    "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0", ",", "0"}], "}"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"translation", " ", "on", " ", "y", " ", "axis"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", 
+         RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1", ",", "0"}], "}"}]}], "}"}], ",", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"translation", " ", "on", " ", "x", " ", "axis"}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0", ",", 
+         RowBox[{"-", "1"}]}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], 
+    "\[IndentingNewLine]", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"buildCC3D", "[", "array_", "]"}], ":=", "\[IndentingNewLine]", 
+  RowBox[{"Module", "[", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "usedArr", ",", "d1", ",", "d2", ",", "d3", ",", "i", ",", "j", ",", "k",
+       ",", "t1", ",", "t2", ",", "a1", ",", "a2", ",", "cc", ",", 
+      "edgeIndices", ",", "blockIndices", ",", "zeroCell1", ",", "zeroCell2", 
+      ",", "oneCell", ",", "twoCell", ",", "totalZeroCells", ",", 
+      "totalOneCells", ",", "totalTwoCells", ",", "totalThreeCells"}], "}"}], 
+    ",", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{"d1", ",", "d2", ",", "d3"}], "}"}], "=", 
+      RowBox[{"Dimensions", "[", "array", "]"}]}], ";", "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{"usedArr", ":", " ", 
+       RowBox[{"{", 
+        RowBox[{"visited", ",", 
+         RowBox[{"(", 
+          RowBox[{"its", " ", "index"}], ")"}]}], "}"}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"usedArr", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"False", ",", 
+          RowBox[{"-", "1"}]}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "1", ",", 
+          RowBox[{
+           RowBox[{"2", "*", "d1"}], "+", "1"}], ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"j", ",", "1", ",", 
+          RowBox[{
+           RowBox[{"2", "*", "d2"}], "+", "1"}], ",", "1"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"k", ",", "1", ",", 
+          RowBox[{
+           RowBox[{"2", "*", "d3"}], "+", "1"}], ",", "1"}], "}"}]}], "]"}]}],
+      ";", "\[IndentingNewLine]", 
+     RowBox[{"cc", "=", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"{", "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"i", ",", "4"}], "}"}]}], "]"}]}], ";", 
+     "\[IndentingNewLine]", 
+     RowBox[{"(*", 
+      RowBox[{
+       RowBox[{
+       "this", " ", "is", " ", "the", " ", "2", "d", " ", "array", " ", 
+        "that", " ", "documents", " ", "whether", " ", "the", " ", "0"}], ",",
+        "1", ",", 
+       RowBox[{"2", "-", 
+        RowBox[{"cells", " ", "have", " ", "been", " ", "used"}]}]}], "*)"}], 
+     "\[IndentingNewLine]", 
+     RowBox[{"totalZeroCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalOneCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalTwoCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"totalThreeCells", "=", "0"}], ";", "\[IndentingNewLine]", 
+     RowBox[{"Do", "[", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"array", "\[LeftDoubleBracket]", 
+            RowBox[{"x", ",", "y", ",", "z"}], "\[RightDoubleBracket]"}], 
+           "\[Equal]", "1"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"blockIndices", "=", 
+            RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{"For", "[", 
+            RowBox[{
+             RowBox[{"t1", "=", "1"}], ",", 
+             RowBox[{"t1", "\[LessEqual]", "3"}], ",", 
+             RowBox[{"t1", "++"}], ",", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"For", "[", 
+               RowBox[{
+                RowBox[{"t2", "=", "1"}], ",", 
+                RowBox[{"t2", "\[LessEqual]", "2"}], ",", 
+                RowBox[{"t2", "++"}], ",", "\[IndentingNewLine]", 
+                RowBox[{
+                 RowBox[{"edgeIndices", "=", 
+                  RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"twoCell", "=", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"2", "*", "x"}], ",", 
+                    RowBox[{"2", "*", "y"}], ",", 
+                    RowBox[{"2", "*", "z"}]}], "}"}], "+", 
+                   RowBox[{
+                    RowBox[{
+                    "translation3D", "\[LeftDoubleBracket]", "t1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "t2", 
+                    "\[RightDoubleBracket]"}]}]}], ";", "\[IndentingNewLine]", 
+                 RowBox[{"For", "[", 
+                  RowBox[{
+                   RowBox[{"i", "=", "1"}], ",", 
+                   RowBox[{"i", "\[LessEqual]", "4"}], ",", 
+                   RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"(*", 
+                    RowBox[{"position", " ", "=", " ", 
+                    RowBox[{"arithmetic", "+", "translation"}]}], "*)"}], 
+                   "\[IndentingNewLine]", 
+                   RowBox[{
+                    RowBox[{"zeroCell1", "=", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"2", "*", "x"}], ",", 
+                    RowBox[{"2", "*", "y"}], ",", 
+                    RowBox[{"2", "*", "z"}]}], "}"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "translation3D", "\[LeftDoubleBracket]", "t1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "t2", 
+                    "\[RightDoubleBracket]"}], "+", 
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"t1", "\[Equal]", "1"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "3"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", "0"}], "}"}]}], "]"}]}]}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"zeroCell2", "=", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"2", "*", "x"}], ",", 
+                    RowBox[{"2", "*", "y"}], ",", 
+                    RowBox[{"2", "*", "z"}]}], "}"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "translation3D", "\[LeftDoubleBracket]", "t1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "t2", 
+                    "\[RightDoubleBracket]"}], "+", 
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"t1", "\[Equal]", "1"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "3"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", "0"}], "}"}]}], "]"}]}]}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"oneCell", "=", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"2", "*", "x"}], ",", 
+                    RowBox[{"2", "*", "y"}], ",", 
+                    RowBox[{"2", "*", "z"}]}], "}"}], "+", 
+                    RowBox[{
+                    RowBox[{
+                    "translation3D", "\[LeftDoubleBracket]", "t1", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "t2", 
+                    "\[RightDoubleBracket]"}], "+", 
+                    RowBox[{"Which", "[", 
+                    RowBox[{
+                    RowBox[{"t1", "\[Equal]", "1"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "2"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "0", ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}], "}"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"t1", "\[Equal]", "3"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "translation2D", "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", "0"}], "}"}]}], "]"}]}]}],
+                     ";", "\[IndentingNewLine]", 
+                    RowBox[{"(*", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"Print", "[", 
+                    RowBox[{
+                    "zeroCell1", ",", "\"\<,\>\"", ",", "zeroCell2", ",", 
+                    "\"\<,\>\"", ",", "oneCell"}], "]"}], ";"}], "*)"}], 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "\[Equal]", "False"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "=", "True"}], ";", 
+                    RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"(*", 
+                    RowBox[{
+                    "get", " ", "index", " ", "of", " ", "this", " ", 
+                    "zerocell"}], "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"totalZeroCells", "+=", "1"}], ";", 
+                    RowBox[{"(*", 
+                    RowBox[{"increment", " ", "zerocell", " ", "count"}], 
+                    "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    "=", "totalZeroCells"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "zeroCell1"}], "]"}]}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "\[Equal]", "False"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "=", "True"}], ";", 
+                    RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"totalZeroCells", "+=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{"zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    "=", "totalZeroCells"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", "zeroCell2"}], "]"}]}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}]}], "]"}]}], ";", 
+                    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "\[Equal]", "False"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{"oneCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "=", "True"}], ";", 
+                    RowBox[{"(*", "marked", "*)"}], "\[IndentingNewLine]", 
+                    RowBox[{"totalOneCells", "+=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"edgeIndices", "=", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{"edgeIndices", ",", "totalOneCells"}], "]"}]}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    "=", "totalOneCells"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell1", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    ",", 
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "zeroCell2", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                    "}"}]}], "]"}]}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"edgeIndices", "=", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{"edgeIndices", ",", 
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "oneCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                    "]"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}]}]}], "]"}]}], ";"}]}], 
+                  "\[IndentingNewLine]", "]"}], ";", 
+                 RowBox[{"(*", 
+                  RowBox[{"end", " ", "for"}], "*)"}], "\[IndentingNewLine]", 
+                 
+                 RowBox[{
+                  RowBox[{
+                  "cc", "\[LeftDoubleBracket]", "3", 
+                   "\[RightDoubleBracket]"}], "=", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "\[Equal]", "False"}], " ", ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+                    "=", "True"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"totalTwoCells", "+=", "1"}], ";", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+                    "=", "totalTwoCells"}], ";", "\[IndentingNewLine]", 
+                    RowBox[{"blockIndices", "=", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{"blockIndices", ",", "totalTwoCells"}], "]"}]}], 
+                    ";", "\[IndentingNewLine]", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}], ",", "edgeIndices"}], "]"}]}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"blockIndices", "=", 
+                    RowBox[{"Append", "[", 
+                    RowBox[{"blockIndices", ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "1", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "2", 
+                    "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    "twoCell", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}], "\[RightDoubleBracket]"}], 
+                    "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+                    "]"}]}], ";", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "cc", "\[LeftDoubleBracket]", "3", 
+                    "\[RightDoubleBracket]"}]}]}], "]"}]}], ";"}]}], 
+               "\[IndentingNewLine]", "]"}], ";"}]}], "\[IndentingNewLine]", 
+            "]"}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+            "cc", "\[LeftDoubleBracket]", "4", "\[RightDoubleBracket]"}], "=", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                 RowBox[{
+                  RowBox[{"2", "*", "x"}], ",", 
+                  RowBox[{"2", "*", "y"}], ",", 
+                  RowBox[{"2", "*", "z"}]}], "\[RightDoubleBracket]"}], 
+                "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "\[Equal]", "False"}], " ", ",", "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                  RowBox[{
+                   RowBox[{"2", "*", "x"}], ",", 
+                   RowBox[{"2", "*", "y"}], ",", 
+                   RowBox[{"2", "*", "z"}]}], "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], "=", 
+                "True"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"totalThreeCells", "+=", "1"}], ";", 
+               "\[IndentingNewLine]", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"usedArr", "\[LeftDoubleBracket]", 
+                  RowBox[{
+                   RowBox[{"2", "*", "x"}], ",", 
+                   RowBox[{"2", "*", "y"}], ",", 
+                   RowBox[{"2", "*", "z"}]}], "\[RightDoubleBracket]"}], 
+                 "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], "=", 
+                "totalThreeCells"}], ";", "\[IndentingNewLine]", 
+               RowBox[{"Append", "[", 
+                RowBox[{
+                 RowBox[{
+                 "cc", "\[LeftDoubleBracket]", "4", "\[RightDoubleBracket]"}],
+                  ",", "blockIndices"}], "]"}]}], ",", "\[IndentingNewLine]", 
+              
+              RowBox[{
+              "cc", "\[LeftDoubleBracket]", "4", "\[RightDoubleBracket]"}]}], 
+             "]"}]}], ";", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"##", "&"}], "[", "]"}]}], ",", 
+          RowBox[{
+           RowBox[{"##", "&"}], "[", "]"}]}], "]"}], ";"}], 
+       "\[IndentingNewLine]", ",", 
+       RowBox[{"{", 
+        RowBox[{"x", ",", "d1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"y", ",", "d2"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"z", ",", "d3"}], "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+     "cc"}]}], "\[IndentingNewLine]", "]"}]}]}], "Input",
+ CellChangeTimes->{{3.747228728344038*^9, 3.747228813938085*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"09bd861a-a011-4f53-ab60-7fa4bed37286"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"arrC3D", "=", 
+   RowBox[{"{", "\[IndentingNewLine]", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0"}], "}"}]}], "}"}]}], "\[IndentingNewLine]", 
+    "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"arrRing3D", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1"}], "}"}]}], "}"}]}], "}"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.747228845158866*^9, 3.74722884545782*^9}},
+ CellLabel->"In[30]:=",ExpressionUUID->"f0f01a3d-e7f7-43de-ae0e-20214fa166af"]
+},
+WindowSize->{808, 847},
+WindowMargins->{{28, Automatic}, {36, Automatic}},
+FrontEndVersion->"11.3 for Mac OS X x86 (32-bit, 64-bit Kernel) (March 5, \
+2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 80764, 1860, 4898, "Input",ExpressionUUID->"09bd861a-a011-4f53-ab60-7fa4bed37286"],
+Cell[81325, 1882, 6215, 191, 283, "Input",ExpressionUUID->"f0f01a3d-e7f7-43de-ae0e-20214fa166af"]
+}
+]
+*)
+
